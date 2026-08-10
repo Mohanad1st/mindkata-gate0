@@ -26,14 +26,47 @@ All conditions must pass:
 - at least 60% and at least 5 users report a recent consequential human–AI incident;
 - at least 70% of both users and buyers accurately explain the proposition;
 - at least 75% complete Mission 1 without rescue, with median completion no more than 12 minutes;
-- at least 50% and at least 4 users voluntarily start **and complete** Mission 2;
+- at least 50% and at least 4 users voluntarily start **and complete** Mission 2, without added
+  incentive or direct prompting;
 - at least 50% and at least 4 buyers identify a credible use case, owner/budget route, and outcome.
 
 PIVOT is allowed only when at least three of five scored criteria pass, no stop floor is crossed, no material safety/privacy issue occurs, and one bounded retest is preregistered. Fewer than three passing criteria is STOP.
 
+### Gate 0A warning bands and STOP floors
+
+A criterion that misses its pass condition but lands inside its warning band counts as a failed
+criterion for the three-of-five PIVOT rule. A criterion below its floor is an immediate STOP,
+regardless of how many other criteria pass.
+
+The **five scored criteria** are recent need, comprehension, Mission 1, Mission 2, and buyer
+relevance. Mission 1 completion and Mission 1 median are two conditions of the single Mission 1
+criterion, not two separate criteria — the table below lists them on their own rows because each
+carries its own floor.
+
+| Criterion            | PASS        | Warning band (PIVOT eligible) | STOP floor |
+| -------------------- | ----------- | ----------------------------- | ---------- |
+| Recent need          | ≥60%, min 5 | 40–59%                        | <40%       |
+| Comprehension        | ≥70%        | 50–69%                        | <50%       |
+| Mission 1 completion | ≥75%        | 50–74%                        | <50%       |
+| Mission 1 median     | ≤12 min     | 12–18 min                     | >18 min    |
+| Mission 2 completion | ≥50%, min 4 | 25–49%                        | <25%       |
+| Buyer relevance      | ≥50%, min 4 | 30–49%                        | <30%       |
+
+STOP also applies on any material safety or privacy issue, or after a failed retest.
+
+A **bounded retest** for Gate 0A changes exactly one primary variable and recruits at least 5 new
+users and 5 new buyers. It must be preregistered before the retest begins.
+
 ## Gate 0B pass conditions
 
 After Gate 0A passes: 10 valid priced proposals, at least 8 substantive responses, at least 2 hard commercial progressions, and at least 1 financial or contractual commitment. A permitted retest passes only when cumulative original-plus-retest evidence reaches the full commercial threshold.
+
+PIVOT is allowed on exactly 1 hard commercial signal without a commitment, or on 0 hard signals
+accompanied by at least 3 repeated solvable objections and at least 2 requests for revision. The
+bounded retest for Gate 0B is one further round of 5 priced proposals.
+
+STOP applies on 0 hard signals without that pivot evidence, on training-only demand, or after a
+failed retest.
 
 ## Hard exclusions
 

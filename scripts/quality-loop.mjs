@@ -30,13 +30,23 @@ const stages =
       ]
     : fastStages;
 
+// On Windows `npm` is `npm.cmd`, which Node refuses to spawn without a shell. Pass the
+// stage as one pre-joined string rather than command + args, because combining an args
+// array with `shell: true` is deprecated (DEP0190). Every stage above is a hardcoded
+// literal, so nothing external reaches the shell. POSIX keeps the unshelled path.
+const onWindows = process.platform === "win32";
+const runStage = (command, args) =>
+  onWindows
+    ? spawnSync([command, ...args].join(" "), { cwd: process.cwd(), stdio: "inherit", shell: true })
+    : spawnSync(command, args, { cwd: process.cwd(), stdio: "inherit", shell: false });
+
 const startedAt = new Date();
 const results = [];
 console.log(`\nMindKata bounded quality loop — ${profile} profile\n`);
 
 for (const [label, command, args] of stages) {
   console.log(`\n▶ ${label}`);
-  const result = spawnSync(command, args, { cwd: process.cwd(), stdio: "inherit", shell: false });
+  const result = runStage(command, args);
   const passed = result.status === 0;
   results.push({ label, passed, exitCode: result.status });
   if (!passed) break;

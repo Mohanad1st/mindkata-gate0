@@ -51,6 +51,11 @@ test("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 completes both fixed missions with sep
   ]);
 
   await page.getByRole("link", { name: "Start Mission 2" }).click();
+  // Barrier before reading storage: page.evaluate() does not auto-wait, and MissionFlow only
+  // leaves its "Preparing the fixed mission…" state after the init effect has written the
+  // record. This locator must be mission-2 specific — the session code and other chrome are
+  // already on screen from the Mission 1 completion page, so they would match instantly.
+  await expect(page.getByText(/mission 2 of 2/i)).toBeVisible();
   const startedMissionTwo = await page.evaluate(() =>
     JSON.parse(sessionStorage.getItem("mindkata-gate0:mission:2") ?? "{}"),
   );

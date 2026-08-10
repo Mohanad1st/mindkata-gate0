@@ -3,6 +3,10 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: false,
+  // Each spec drives a whole mission against `next dev`, which compiles routes on demand.
+  // The 30s default is not enough for the first /mission/[missionId] compile on a slow
+  // machine. CI runs the full suite in ~23s, so this ceiling costs nothing there.
+  timeout: 90_000,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }]],

@@ -1,0 +1,53 @@
+{
+  "name": "mindkata-gate0",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Scope-locked Gate 0 prototype for structured human-AI judgment practice.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "scope:check": "node scripts/check-scope.mjs",
+    "secrets:check": "node scripts/check-secrets.mjs",
+    "traceability:check": "node scripts/check-traceability.mjs",
+    "security:deps": "npm audit --omit=dev --audit-level=high",
+    "qa:fast": "node scripts/quality-loop.mjs --profile=fast",
+    "qa": "node scripts/quality-loop.mjs --profile=full",
+    "loop": "node scripts/quality-loop.mjs --profile=full"
+  },
+  "dependencies": {
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.1",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.3",
+    "@types/node": "26.2.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "axe-core": "4.13.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.0",
+    "jsdom": "29.1.1",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

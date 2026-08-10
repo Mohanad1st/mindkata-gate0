@@ -1,0 +1,48 @@
+name: Gate 0 vertical slice
+description: Implement one reviewable end-to-end capability inside the locked Gate 0 scope.
+title: "[Slice] "
+labels: ["gate-0", "vertical-slice"]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not combine slices or add deferred product layers."
+  - type: input
+    id: outcome
+    attributes:
+      label: User outcome
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Required tests and traceability IDs
+    validations:
+      required: true
+  - type: dropdown
+    id: data
+    attributes:
+      label: Data classification impact
+      options: ["None", "Synthetic only", "Needs founder decision"]
+    validations:
+      required: true
+  - type: checkboxes
+    id: completion
+    attributes:
+      label: Definition of done
+      options:
+        - label: Scope lock passes
+          required: true
+        - label: Automated tests pass
+          required: true
+        - label: Accessibility checked
+          required: true
+        - label: Privacy/security impact documented
+          required: true
+        - label: Human diff review completed
+          required: true

@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/guard-command.mjs\"",
+            "timeout": 15,
+            "statusMessage": "Checking the project safety gate"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/stop-gate.mjs\"",
+            "timeout": 600,
+            "statusMessage": "Running the MindKata fast quality loop"
+          }
+        ]
+      }
+    ]
+  }
+}

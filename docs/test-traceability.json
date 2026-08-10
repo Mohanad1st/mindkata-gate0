@@ -1,0 +1,68 @@
+[
+  {
+    "id": "G0-01",
+    "requirement": "Only two fixed synthetic missions are available.",
+    "tests": [
+      "tests/unit/scenarios.test.ts",
+      "tests/integration/mission-flow.test.tsx",
+      "tests/e2e/gate0-flow.spec.ts"
+    ]
+  },
+  {
+    "id": "G0-02",
+    "requirement": "AI output is hidden until independent judgment is submitted.",
+    "tests": ["tests/integration/mission-flow.test.tsx", "tests/e2e/gate0-flow.spec.ts"]
+  },
+  {
+    "id": "G0-03",
+    "requirement": "Framing captures objective, constraints, and uncertainty.",
+    "tests": [
+      "tests/unit/mission-state.test.ts",
+      "tests/integration/mission-flow.test.tsx",
+      "tests/e2e/gate0-flow.spec.ts"
+    ]
+  },
+  {
+    "id": "G0-04",
+    "requirement": "Delegation separates human work, AI assistance, and verification.",
+    "tests": [
+      "tests/unit/mission-state.test.ts",
+      "tests/integration/mission-flow.test.tsx",
+      "tests/e2e/gate0-flow.spec.ts"
+    ]
+  },
+  {
+    "id": "G0-05",
+    "requirement": "Final decision preserves initial judgment in the receipt.",
+    "tests": ["tests/integration/mission-flow.test.tsx", "tests/e2e/gate0-flow.spec.ts"]
+  },
+  {
+    "id": "G0-06",
+    "requirement": "Mission 2 continuation is voluntary and completion is distinct from start.",
+    "tests": ["tests/integration/mission-flow.test.tsx", "tests/e2e/gate0-flow.spec.ts"]
+  },
+  {
+    "id": "G0-07",
+    "requirement": "Draft uses browser-session storage with explicit export and deletion.",
+    "tests": ["tests/e2e/gate0-flow.spec.ts"]
+  },
+  {
+    "id": "G0-08",
+    "requirement": "Core pages have no serious automated accessibility violations.",
+    "tests": [
+      "tests/e2e/accessibility.spec.ts",
+      "tests/integration/home.test.tsx",
+      "tests/integration/mission-flow.test.tsx"
+    ]
+  },
+  {
+    "id": "G0-09",
+    "requirement": "Prohibited integrations and dependencies cannot enter silently.",
+    "tests": ["tests/unit/scope-lock.test.ts"]
+  },
+  {
+    "id": "G0-10",
+    "requirement": "Every locked requirement maps to executable test evidence.",
+    "tests": ["tests/unit/traceability.test.ts"]
+  }
+]

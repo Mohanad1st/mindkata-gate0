@@ -1,0 +1,26 @@
+{
+  "gate": "0",
+  "approvedMissions": ["1", "2"],
+  "allowedRuntimeDependencies": ["next", "react", "react-dom", "zod"],
+  "prohibitedPaths": [
+    "app/feed",
+    "app/news",
+    "app/dashboard",
+    "app/admin",
+    "lib/ingestion",
+    "lib/adaptive",
+    "lib/scoring/automatic",
+    "supabase"
+  ],
+  "prohibitedSourcePatterns": [
+    "@ai-sdk/",
+    "openai",
+    "anthropic",
+    "googleapis",
+    "microsoft-graph",
+    "imap",
+    "rss-parser",
+    "posthog",
+    "@sentry/"
+  ]
+}

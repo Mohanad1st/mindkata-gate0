@@ -81,3 +81,7 @@ failed retest.
 - No public launch, paid acquisition, production deployment, or legal reliance on the provisional name.
 
 Changing any item above requires a dated decision record and founder approval. Passing CI does not authorize a scope change.
+
+Gates 1 to 4 and their entry conditions are recorded in `decisions/0003-gate-sequence.md`. Gate 1
+is a new approved build with its own scope lock, not the next slice of this one — and Arabic/RTL is
+a Gate 4 hypothesis, so this prototype stays English-only.

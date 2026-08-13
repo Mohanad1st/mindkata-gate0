@@ -46,6 +46,10 @@ describe("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 G0-08 mission interaction", () => 
     );
     await user.click(screen.getByRole("button", { name: "Continue" })); // G0-03
 
+    await user.type(
+      screen.getByLabelText("Which steps depend on each other?"),
+      "Availability before booking",
+    );
     await user.type(screen.getByLabelText("What must remain human-owned?"), "Accountability");
     await user.type(screen.getByLabelText("What can AI assist with?"), "Comparison");
     await user.type(

@@ -222,6 +222,14 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
         <section className="card" aria-labelledby="delegate-title">
           <p className="step-label">Assign ownership deliberately</p>
           <h2 id="delegate-title">Decide what humans and AI should do</h2>
+          <Field label="Which steps depend on each other?" id="dependency-map">
+            <textarea
+              id="dependency-map"
+              value={answers.dependencyMap}
+              onChange={(e) => update("dependencyMap", e.target.value)}
+              rows={3}
+            />
+          </Field>
           <Field label="What must remain human-owned?" id="human-work">
             <textarea
               id="human-work"

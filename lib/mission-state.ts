@@ -13,6 +13,7 @@ export type MissionAnswers = {
   objective: string;
   constraints: string;
   uncertainty: string;
+  dependencyMap: string;
   humanWork: string;
   aiWork: string;
   verificationPlan: string;
@@ -27,6 +28,7 @@ export const emptyAnswers: MissionAnswers = {
   objective: "",
   constraints: "",
   uncertainty: "",
+  dependencyMap: "",
   humanWork: "",
   aiWork: "",
   verificationPlan: "",
@@ -41,9 +43,15 @@ export function stageIsComplete(stage: number, answers: MissionAnswers): boolean
     return Boolean(
       answers.objective.trim() && answers.constraints.trim() && answers.uncertainty.trim(),
     );
+  // The dependency map is required here because the Execution Kit's completion definition
+  // (03_Interview_and_Prototype_Protocol.md) lists a "task/dependency map" among the artifacts a
+  // submitted Mission 1 must contain, and M1_COMPLETE is coded against that list.
   if (stage === 2)
     return Boolean(
-      answers.humanWork.trim() && answers.aiWork.trim() && answers.verificationPlan.trim(),
+      answers.dependencyMap.trim() &&
+      answers.humanWork.trim() &&
+      answers.aiWork.trim() &&
+      answers.verificationPlan.trim(),
     );
   if (stage === 3) return true;
   if (stage === 4)

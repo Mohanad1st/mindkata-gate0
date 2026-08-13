@@ -23,14 +23,26 @@ Professionals and organizational buyers may value structured practice that helps
 All conditions must pass:
 
 - at least 8 eligible users and 8 qualified buyers;
-- at least 60% and at least 5 users report a recent consequential human–AI incident;
+- at least 60% and at least 5 users report a consequential human–AI incident **in the past six
+  months**;
 - at least 70% of both users and buyers accurately explain the proposition;
-- at least 75% complete Mission 1 without rescue, with median completion no more than 12 minutes;
+- at least 75% complete Mission 1 without rescue, with median completion no more than 12 minutes,
+  **and no material safety or privacy issue**;
 - at least 50% and at least 4 users voluntarily start **and complete** Mission 2, without added
   incentive or direct prompting;
 - at least 50% and at least 4 buyers identify a credible use case, owner/budget route, and outcome.
 
-PIVOT is allowed only when at least three of five scored criteria pass, no stop floor is crossed, no material safety/privacy issue occurs, and one bounded retest is preregistered. Fewer than three passing criteria is STOP.
+PIVOT is allowed only when at least three of five scored criteria pass, no stop floor is crossed, no material safety/privacy issue occurs, and one bounded retest is preregistered. Fewer than three passing criteria is STOP, **even when every failed criterion is still inside its warning band**.
+
+### Valid denominators
+
+- at least 8 eligible users;
+- at least 8 qualified buyers, kept as a distinct denominator even when one person could fit both
+  roles;
+- at least 8 eligible users who complete Mission 1 **and are neutrally offered Mission 2** — this is
+  the denominator of the Mission 2 continuation rate, not the count of enrolled users;
+- exclusions and missing data are reported, and a denominator is never silently changed;
+- **percentages are rounded up to whole participants.**
 
 ### Gate 0A warning bands and STOP floors
 

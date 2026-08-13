@@ -16,10 +16,15 @@ export default function Home() {
         <h2 id="boundary-title">Before you begin</h2>
         <ul>
           <li>Use only the fictional information shown in the mission.</li>
-          <li>Do not enter personal, employer, client, patient, or confidential information.</li>
           <li>
-            This prototype does not diagnose intelligence, cognitive decline, or job performance.
+            Do not enter personal, employer, client, employee, patient, government, or confidential
+            information.
           </li>
+          <li>
+            This prototype does not diagnose intelligence, cognitive decline, mental health,
+            employability, or job performance.
+          </li>
+          <li>Your results will not be used for employment decisions.</li>
           <li>Your draft stays in this browser session unless you export it yourself.</li>
         </ul>
       </section>

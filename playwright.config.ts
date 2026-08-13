@@ -7,6 +7,12 @@ export default defineConfig({
   // The 30s default is not enough for the first /mission/[missionId] compile on a slow
   // machine. CI runs the full suite in ~23s, so this ceiling costs nothing there.
   timeout: 90_000,
+  // Assertion timeout, separate from the per-test timeout above. The default 5s is not enough for
+  // the first assertion after navigating to a route `next dev` has not compiled yet: measured
+  // passing in ~20s total on a quiet run but failing on the Mission 2 barrier when the machine is
+  // contended. Sized against the slow case, not the fast one. No assertion is weakened — this only
+  // changes how long a locator may take to appear before it is called absent.
+  expect: { timeout: 20_000 },
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }]],

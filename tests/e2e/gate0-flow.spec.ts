@@ -15,6 +15,9 @@ async function completeMission(page: Page, missionId: "1" | "2") {
     .fill("Availability and assumptions");
   await page.getByRole("button", { name: "Continue" }).click(); // G0-03
 
+  await page
+    .getByLabel("Which steps depend on each other?")
+    .fill("Confirm availability before booking facilitators");
   await page.getByLabel("What must remain human-owned?").fill("Final decision and accountability");
   await page.getByLabel("What can AI assist with?").fill("Structured comparison");
   await page

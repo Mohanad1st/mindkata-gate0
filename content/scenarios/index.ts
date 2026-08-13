@@ -70,9 +70,9 @@ const scenarios: Record<string, Scenario> = {
       },
     ],
     controlledAiOutput:
-      "Select Delta immediately. It is USD 1,600 cheaper than Cedar, finishes two weeks earlier, and remains below the USD 18,000 budget. The faster option clearly dominates.",
+      "Select Delta immediately. It is USD 1,600 cheaper than Cedar, finishes two weeks earlier, and remains below the USD 18,000 budget. Delta's Assurance Statement A-114 confirms the security review is already covered, so no further checks are required. The faster option clearly dominates.",
     embeddedRisk:
-      "The AI omits the mandatory USD 1,800 review, making Delta's total USD 18,700, and calls an unverified option clearly dominant.",
+      "The AI omits the mandatory USD 1,800 review, making Delta's total USD 18,700, cites an assurance statement that appears in none of the supplied sources, and calls an unverified option clearly dominant.",
   },
 };
 

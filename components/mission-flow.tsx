@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -129,7 +129,7 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
   if (!ready || !record) {
     return (
       <main id="main-content" className="shell" aria-busy="true">
-        <p>Preparing the fixed missionâ€¦</p>
+        <p>Preparing the fixed mission…</p>
       </main>
     );
   }
@@ -138,10 +138,10 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
     <main id="main-content" className="shell mission-shell">
       <header className="mission-header">
         <Link className="text-link" href="/">
-          â† Exit to start
+          ← Exit to start
         </Link>
         <p className="eyebrow">
-          Mission {scenario.id} of 2 Â· {scenario.kind}
+          Mission {scenario.id} of 2 · {scenario.kind}
         </p>
         <h1>{scenario.title}</h1>
         <p className="session-code">Anonymous session code: {record.sessionCode}</p>
@@ -275,7 +275,7 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
 
       {stage === 3 && (
         <section className="card" aria-labelledby="ai-title">
-          <p className="step-label">Fixed synthetic output Â· not a live model call</p>
+          <p className="step-label">Fixed synthetic output · not a live model call</p>
           <h2 id="ai-title">Inspect the AI recommendation</h2>
           <blockquote className="ai-output">{scenario.controlledAiOutput}</blockquote>
           <p>
@@ -385,8 +385,8 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
             <aside className="continue-card" aria-labelledby="mission-two-title">
               <h3 id="mission-two-title">Optional Mission 2</h3>
               <p>
-                Continuing is voluntary. Starting and completing Mission 2â€”not merely opening
-                itâ€”is the Gate 0 continuation outcome.
+                Continuing is voluntary. Starting and completing Mission 2—not merely opening it—is
+                the Gate 0 continuation outcome.
               </p>
               <Link className="button" href="/mission/2">
                 Start Mission 2

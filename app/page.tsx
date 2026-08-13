@@ -32,7 +32,10 @@ export default function Home() {
       <section className="card" aria-labelledby="mission-one-title">
         <p className="step-label">Mission 1 of 2</p>
         <h2 id="mission-one-title">Choose a training delivery plan</h2>
-        <p>Expected time: 8–12 minutes. The experience has a visible endpoint and no feed.</p>
+        <p>
+          The experience has a visible endpoint and no feed. Your facilitator will confirm the
+          expected time.
+        </p>
         <Link className="button" href="/mission/1">
           Start Mission 1
         </Link>

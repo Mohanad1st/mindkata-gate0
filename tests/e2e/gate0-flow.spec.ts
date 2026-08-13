@@ -7,9 +7,11 @@ async function completeMission(page: Page, missionId: "1" | "2") {
   await page.getByRole("button", { name: "Continue" }).click();
 
   await page.getByLabel("What outcome are you trying to achieve?").fill("A defensible decision");
+  await page.getByLabel("Who is this decision for?").fill("The accountable program owner");
   await page
     .getByLabel("What constraints must not be missed?")
     .fill("Budget, timing, and evidence");
+  await page.getByLabel("What are you assuming?").fill("The supplied summary is accurate");
   await page
     .getByLabel("What information is uncertain or missing?")
     .fill("Availability and assumptions");
@@ -28,9 +30,22 @@ async function completeMission(page: Page, missionId: "1" | "2") {
   await expect(page.getByText(/fixed synthetic output/i)).toBeVisible();
   await page.getByRole("button", { name: "Continue" }).click();
   await page.getByLabel(/what did you verify/i).fill("I checked the supplied facts and arithmetic");
+  if (missionId === "2") {
+    // 05_Mission_Briefs.md requires the claim/evidence table on the adversarial mission only.
+    await page
+      .getByLabel(/list each ai claim/i)
+      .fill("Assurance Statement A-114: not present in any supplied source");
+  }
+  await page
+    .getByLabel("What did you accept, change, or reject from the AI output?")
+    .fill("Accepted the cost comparison, rejected the recommendation");
   await page
     .getByLabel("Your final decision and rationale")
     .fill(`Final decision for mission ${missionId}`);
+  await page.getByLabel("What risk remains after this decision?").fill("Unconfirmed availability");
+  await page
+    .getByLabel("Who is accountable, and who do you escalate to?")
+    .fill("Program owner; escalate to the sponsor");
   await page.getByLabel("Final confidence").selectOption("high");
   await page.getByRole("button", { name: "Complete mission" }).click();
   await expect(page.getByRole("heading", { name: `Mission ${missionId} complete` })).toBeVisible();

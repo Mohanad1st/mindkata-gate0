@@ -36,10 +36,12 @@ describe("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 G0-08 mission interaction", () => 
       screen.getByLabelText("What outcome are you trying to achieve?"),
       "A sound choice",
     );
+    await user.type(screen.getByLabelText("Who is this decision for?"), "The program owner");
     await user.type(
       screen.getByLabelText("What constraints must not be missed?"),
       "Budget and timing",
     );
+    await user.type(screen.getByLabelText("What are you assuming?"), "The summary is accurate");
     await user.type(
       screen.getByLabelText("What information is uncertain or missing?"),
       "Availability",
@@ -65,8 +67,20 @@ describe("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 G0-08 mission interaction", () => 
       "The arithmetic and constraints",
     );
     await user.type(
+      screen.getByLabelText("What did you accept, change, or reject from the AI output?"),
+      "Accepted the cost table, rejected the recommendation",
+    );
+    await user.type(
       screen.getByLabelText("Your final decision and rationale"),
       "My reviewed answer",
+    );
+    await user.type(
+      screen.getByLabelText("What risk remains after this decision?"),
+      "Availability could still fail",
+    );
+    await user.type(
+      screen.getByLabelText("Who is accountable, and who do you escalate to?"),
+      "Program owner",
     );
     await user.selectOptions(screen.getByLabelText("Final confidence"), "high");
     await user.click(screen.getByRole("button", { name: "Complete mission" }));

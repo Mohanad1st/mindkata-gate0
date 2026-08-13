@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -89,7 +89,7 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
   }
 
   function continueFlow() {
-    if (!stageIsComplete(stage, answers)) return;
+    if (!stageIsComplete(stage, answers, scenario.id)) return;
     if (stage === 4 && record && !record.completedAt) {
       const completed: StoredMission = {
         ...record,
@@ -129,7 +129,7 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
   if (!ready || !record) {
     return (
       <main id="main-content" className="shell" aria-busy="true">
-        <p>Preparing the fixed mission…</p>
+        <p>Preparing the fixed missionâ€¦</p>
       </main>
     );
   }
@@ -138,10 +138,10 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
     <main id="main-content" className="shell mission-shell">
       <header className="mission-header">
         <Link className="text-link" href="/">
-          ← Exit to start
+          â† Exit to start
         </Link>
         <p className="eyebrow">
-          Mission {scenario.id} of 2 · {scenario.kind}
+          Mission {scenario.id} of 2 Â· {scenario.kind}
         </p>
         <h1>{scenario.title}</h1>
         <p className="session-code">Anonymous session code: {record.sessionCode}</p>
@@ -199,11 +199,27 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
               rows={3}
             />
           </Field>
+          <Field label="Who is this decision for?" id="audience">
+            <textarea
+              id="audience"
+              value={answers.audience}
+              onChange={(e) => update("audience", e.target.value)}
+              rows={2}
+            />
+          </Field>
           <Field label="What constraints must not be missed?" id="constraints">
             <textarea
               id="constraints"
               value={answers.constraints}
               onChange={(e) => update("constraints", e.target.value)}
+              rows={3}
+            />
+          </Field>
+          <Field label="What are you assuming?" id="assumptions">
+            <textarea
+              id="assumptions"
+              value={answers.assumptions}
+              onChange={(e) => update("assumptions", e.target.value)}
               rows={3}
             />
           </Field>
@@ -259,7 +275,7 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
 
       {stage === 3 && (
         <section className="card" aria-labelledby="ai-title">
-          <p className="step-label">Fixed synthetic output · not a live model call</p>
+          <p className="step-label">Fixed synthetic output Â· not a live model call</p>
           <h2 id="ai-title">Inspect the AI recommendation</h2>
           <blockquote className="ai-output">{scenario.controlledAiOutput}</blockquote>
           <p>
@@ -284,12 +300,52 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
               rows={5}
             />
           </Field>
+          {scenario.id === "2" && (
+            <Field
+              label="List each AI claim and the evidence that supports or fails to support it"
+              id="claim-evidence"
+            >
+              <textarea
+                id="claim-evidence"
+                value={answers.claimEvidence}
+                onChange={(e) => update("claimEvidence", e.target.value)}
+                rows={5}
+              />
+            </Field>
+          )}
+          <Field
+            label="What did you accept, change, or reject from the AI output?"
+            id="ai-contributions"
+          >
+            <textarea
+              id="ai-contributions"
+              value={answers.aiContributions}
+              onChange={(e) => update("aiContributions", e.target.value)}
+              rows={4}
+            />
+          </Field>
           <Field label="Your final decision and rationale" id="final-decision">
             <textarea
               id="final-decision"
               value={answers.finalDecision}
               onChange={(e) => update("finalDecision", e.target.value)}
               rows={5}
+            />
+          </Field>
+          <Field label="What risk remains after this decision?" id="residual-risk">
+            <textarea
+              id="residual-risk"
+              value={answers.residualRisk}
+              onChange={(e) => update("residualRisk", e.target.value)}
+              rows={3}
+            />
+          </Field>
+          <Field label="Who is accountable, and who do you escalate to?" id="accountable-owner">
+            <textarea
+              id="accountable-owner"
+              value={answers.accountableOwner}
+              onChange={(e) => update("accountableOwner", e.target.value)}
+              rows={2}
             />
           </Field>
           <Confidence
@@ -329,8 +385,8 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
             <aside className="continue-card" aria-labelledby="mission-two-title">
               <h3 id="mission-two-title">Optional Mission 2</h3>
               <p>
-                Continuing is voluntary. Starting and completing Mission 2—not merely opening it—is
-                the Gate 0 continuation outcome.
+                Continuing is voluntary. Starting and completing Mission 2â€”not merely opening
+                itâ€”is the Gate 0 continuation outcome.
               </p>
               <Link className="button" href="/mission/2">
                 Start Mission 2
@@ -356,7 +412,11 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
               Back
             </button>
           )}
-          <button type="button" onClick={continueFlow} disabled={!stageIsComplete(stage, answers)}>
+          <button
+            type="button"
+            onClick={continueFlow}
+            disabled={!stageIsComplete(stage, answers, scenario.id)}
+          >
             {stage === 4 ? "Complete mission" : "Continue"}
           </button>
         </div>

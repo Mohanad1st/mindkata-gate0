@@ -19,7 +19,13 @@ npx playwright install chromium
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3200`.
+
+The dev port is pinned. With the default `next dev`, a port already taken by another local
+app makes Next.js quietly move this one to the next free port, so the facilitator cannot know
+from the command alone which URL serves the prototype. Pinning it means the URL above is
+always right, and a clash fails loudly instead of drifting. E2E uses its own port (3100) so a
+running dev server and a test run never collide.
 
 ## The bounded implementation loop
 

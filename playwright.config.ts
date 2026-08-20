@@ -1,5 +1,16 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// E2E runs on its own port and always starts its own server.
+// Previously this pointed at :3000 with `reuseExistingServer` on, so when another local app
+// already owned :3000 Playwright silently drove THAT app: the 13 Aug run reported 3 failures
+// and 58 axe violations that belonged to a different project entirely, while CI was green.
+// A dedicated port plus `reuseExistingServer: false` makes that class of false result
+// impossible - if the port is busy the run fails loudly instead of testing the wrong thing.
+const E2E_PORT = process.env.E2E_PORT ?? "3100";
+// `localhost`, not `127.0.0.1`: Next.js dev treats the raw IP as a foreign origin and
+// blocks every `/_next/*` chunk, so the page never hydrates and each spec times out.
+const BASE_URL = `http://localhost:${E2E_PORT}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: false,
@@ -17,16 +28,20 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
-    // `localhost`, not `127.0.0.1`: Next.js dev treats the raw IP as a foreign origin and
-    // blocks every `/_next/*` chunk, so the page never hydrates and each spec times out.
-    baseURL: "http://localhost:3000",
+    baseURL: BASE_URL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
   webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    // `next start`, not `next dev`, for three reasons. Next 16 allows only ONE dev server per
+    // directory regardless of port, so a dev server left open for fieldwork would block the
+    // suite. The production build is also what actually ships, and it serves prebuilt routes,
+    // so no test waits on an on-demand compile. The full loop runs `build` in the stage
+    // immediately before this one, so the build is always fresh; a standalone `npm run test:e2e`
+    // needs `npm run build` first and says so plainly if the build is missing.
+    command: `npx next start --port ${E2E_PORT}`,
+    url: BASE_URL,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],

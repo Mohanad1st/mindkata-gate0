@@ -51,10 +51,17 @@ a {
 .shell {
   width: min(100% - 2rem, 880px);
   margin: 0 auto;
-  padding: 4rem 0 3rem;
+  /* The data-boundary notice must be fully readable on first paint, before the participant
+     reaches Start. Measured at 1280x720 the old spacing put the notice bottom at y=817, so its
+     last two bullets were cut off by the fold. The header block above it is sized to keep the
+     whole notice on screen at that height. */
+  padding: 2.25rem 0 3rem;
 }
 
-.hero,
+.hero {
+  margin-bottom: 1.25rem;
+}
+
 .mission-header {
   margin-bottom: 2rem;
 }
@@ -76,10 +83,16 @@ h2 {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
 }
 
+/* Scoped to the landing hero: the global h1 ceiling of 4.8rem rendered at 76.8px here and made
+   the hero 402px tall on its own. Mission headers set their own size and are untouched. */
+.hero h1 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+}
+
 .lede {
   max-width: 720px;
   color: var(--muted);
-  font-size: 1.2rem;
+  font-size: 1.08rem;
 }
 
 .eyebrow,
@@ -103,6 +116,7 @@ h2 {
 }
 
 .notice {
+  margin-top: 1rem;
   border-left: 0.45rem solid var(--accent);
 }
 

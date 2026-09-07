@@ -1,7 +1,9 @@
 # ADR 0010: Mission timing must begin at a defined event, not at page mount
 
-**Status:** accepted for the additional instrumentation, which changes no existing measured value.
-**One question awaits a founder decision:** which interval the Gate 0A median is scored on.
+**Status:** accepted, in full. The instrumentation shipped and the open question is now decided.
+**Founder decision, 7 September 2026:** the Gate 0A Mission 1 median is scored on **task time**
+(option (a)); page-open time is reported alongside it as scheduling context and is not scored.
+`docs/scope-lock.md` has been amended to say so. Taken before any participant ran.
 **Date:** 7 September 2026
 **Relates to:** ADR 0004 (receipt aggregation), ADR 0007 (the enlarged artifact set and the timing
 risk it created).
@@ -64,7 +66,8 @@ and debrief support" (`CLAUDE.md`), and adds evidence rather than changing a rub
 
 ## The question that is not mine to answer
 
-**Which interval does the Gate 0A median get scored on?**
+**Which interval does the Gate 0A median get scored on?** — **Decided: (a) task time.** The options
+as they were put, retained so the reasoning stays inspectable:
 
 - **(a) Task time** — first input to completion. Measures the thing the criterion is about: whether a
   professional can produce the artifact set without rescue. Excludes reading, which is not the task.

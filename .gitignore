@@ -13,4 +13,9 @@ test-results/
 *.tsbuildinfo
 .claude/settings.local.json
 
+# GSD planning workspace. Internal working notes: this repository is a published
+# artifact, and planning state is not part of what a reader should have to wade
+# through. Use `gsd-pr-branch` if planning commits ever need filtering.
+.planning/
+
 .vercel

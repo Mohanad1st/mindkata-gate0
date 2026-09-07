@@ -305,3 +305,66 @@ describe("summarize", () => {
     expect(summarize([]).map((summary) => summary.missionId)).toEqual(["1", "2"]);
   });
 });
+
+// ADR 0010. startedAt is written on mount, so page-open time counts the minutes a participant
+// spends reading the brief. Mission 1 is scored on a 12-minute median with a STOP floor at 18, so
+// the difference between the two intervals can decide a gate. These assert that task time is
+// measured from the defined event, that it never silently substitutes for page-open time, and that
+// receipts predating this ADR still aggregate rather than being rejected.
+describe("G0-12 task time is measured from a defined event", () => {
+  const withFirstInput = (overrides: Record<string, unknown> = {}) =>
+    exported({
+      firstInputAt: "2026-08-10T10:04:00.000Z",
+      events: [
+        { name: "M1_STARTED", at: "2026-08-10T10:00:00.000Z" },
+        { name: "M1_FIRST_INPUT", at: "2026-08-10T10:04:00.000Z" },
+        { name: "M1_COMPLETED", at: "2026-08-10T10:10:00.000Z" },
+      ],
+      ...overrides,
+    });
+
+  it("separates the four minutes of reading from the six minutes of work", () => {
+    const parsed = parseReceipt(withFirstInput());
+    expect(parsed.ok).toBe(true);
+
+    const [missionOne] = summarize(parsed.ok ? [parsed.receipt] : []);
+    expect(missionOne).toMatchObject({
+      medianCompletionMinutes: 10,
+      medianTaskMinutes: 6,
+    });
+  });
+
+  it("leaves task time unmeasurable rather than zero for a receipt predating ADR 0010", () => {
+    const parsed = parseReceipt(exported());
+    expect(parsed.ok).toBe(true);
+    expect(parsed.ok && parsed.receipt.firstInputAt).toBeUndefined();
+
+    const [missionOne] = summarize(parsed.ok ? [parsed.receipt] : []);
+    // A zero here would pull a median down and make the instrument look faster than it is.
+    expect(missionOne).toMatchObject({ medianCompletionMinutes: 10, medianTaskMinutes: null });
+    expect(missionOne?.taskMinutes).toEqual([]);
+  });
+
+  it("rejects a firstInputAt without an explicit offset, like every other instant", () => {
+    const parsed = parseReceipt(withFirstInput({ firstInputAt: "2026-08-10T10:04:00" }));
+    expect(parsed.ok).toBe(false);
+    expect(parsed.ok === false && parsed.reason).toMatch(/firstInputAt/);
+  });
+
+  it("discards an inverted interval instead of reporting a negative duration", () => {
+    const parsed = parseReceipt(withFirstInput({ firstInputAt: "2026-08-10T10:12:00.000Z" }));
+    expect(parsed.ok).toBe(true);
+    const [missionOne] = summarize(parsed.ok ? [parsed.receipt] : []);
+    expect(missionOne).toMatchObject({ medianTaskMinutes: null });
+  });
+
+  it("does not move startedAt or the M1_STARTED event", () => {
+    const parsed = parseReceipt(withFirstInput());
+    expect(parsed.ok && parsed.receipt.startedAt).toBe("2026-08-10T10:00:00.000Z");
+    expect(parsed.ok && parsed.receipt.events.map((event) => event.name)).toEqual([
+      "M1_STARTED",
+      "M1_FIRST_INPUT",
+      "M1_COMPLETED",
+    ]);
+  });
+});

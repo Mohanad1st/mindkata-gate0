@@ -1,7 +1,9 @@
 export const receiptEventNames = [
   "M1_STARTED",
+  "M1_FIRST_INPUT",
   "M1_COMPLETED",
   "M2_STARTED",
+  "M2_FIRST_INPUT",
   "M2_COMPLETED",
 ] as const;
 
@@ -23,6 +25,11 @@ export type Receipt = {
   sessionCode: string;
   missionId: string;
   startedAt: string;
+  /**
+   * When the participant first changed any answer. Optional because receipts exported before
+   * ADR 0010 do not carry it, and a facilitator run must not reject those.
+   */
+  firstInputAt?: string;
   completedAt?: string;
   events: ReceiptEvent[];
 };
@@ -38,6 +45,9 @@ export type MissionSummary = {
   completed: number;
   completionMinutes: number[];
   medianCompletionMinutes: number | null;
+  /** First input to completion. Excludes time spent reading the brief. See ADR 0010. */
+  taskMinutes: number[];
+  medianTaskMinutes: number | null;
 };
 
 /**
@@ -92,6 +102,10 @@ export function parseReceipt(raw: unknown): ParseResult {
   if (parseInstant(candidate.startedAt) === null) {
     return { ok: false, reason: "startedAt is not an ISO instant with an explicit offset" };
   }
+  const hasFirstInputAt = !isAbsent(candidate.firstInputAt);
+  if (hasFirstInputAt && parseInstant(candidate.firstInputAt) === null) {
+    return { ok: false, reason: "firstInputAt is not an ISO instant with an explicit offset" };
+  }
   const hasCompletedAt = !isAbsent(candidate.completedAt);
   if (hasCompletedAt && parseInstant(candidate.completedAt) === null) {
     return { ok: false, reason: "completedAt is not an ISO instant with an explicit offset" };
@@ -123,6 +137,7 @@ export function parseReceipt(raw: unknown): ParseResult {
       sessionCode: candidate.sessionCode,
       missionId: candidate.missionId,
       startedAt: candidate.startedAt as string,
+      ...(hasFirstInputAt ? { firstInputAt: candidate.firstInputAt as string } : {}),
       ...(hasCompletedAt ? { completedAt: candidate.completedAt as string } : {}),
       events,
     },
@@ -151,6 +166,24 @@ export function completionMinutes(receipt: Receipt): number | null {
   const completed = parseInstant(receipt.completedAt);
   if (started === null || completed === null) return null;
   const elapsed = completed - started;
+  if (elapsed < 0) return null;
+  return elapsed / 60_000;
+}
+
+/**
+ * Elapsed minutes from the participant's first input to the recorded completion — the interval the
+ * Kit's "timing begins and ends at defined events" requirement actually describes. Excludes time
+ * spent reading the brief, which `completionMinutes` includes because it starts at page mount.
+ *
+ * Returns null when the receipt predates ADR 0010 and carries no `firstInputAt`, when the mission
+ * was not completed, or when the timestamps are inverted. A null is "not measurable", never zero:
+ * a zero would pull a median down and make the instrument look faster than it is.
+ */
+export function taskMinutes(receipt: Receipt): number | null {
+  const firstInput = parseInstant(receipt.firstInputAt);
+  const completed = parseInstant(receipt.completedAt);
+  if (firstInput === null || completed === null) return null;
+  const elapsed = completed - firstInput;
   if (elapsed < 0) return null;
   return elapsed / 60_000;
 }
@@ -195,6 +228,7 @@ function summarizeMission(missionId: string, missionReceipts: Receipt[]): Missio
   const completedEvent = missionId === "1" ? "M1_COMPLETED" : "M2_COMPLETED";
   const { unique, collapsed } = dedupeBySessionCode(missionReceipts);
   const durations: number[] = [];
+  const taskDurations: number[] = [];
 
   let started = 0;
   let completed = 0;
@@ -204,6 +238,8 @@ function summarizeMission(missionId: string, missionReceipts: Receipt[]): Missio
       completed += 1;
       const minutes = completionMinutes(receipt);
       if (minutes !== null) durations.push(minutes);
+      const task = taskMinutes(receipt);
+      if (task !== null) taskDurations.push(task);
     }
   }
 
@@ -216,6 +252,8 @@ function summarizeMission(missionId: string, missionReceipts: Receipt[]): Missio
     completed,
     completionMinutes: durations,
     medianCompletionMinutes: median(durations),
+    taskMinutes: taskDurations,
+    medianTaskMinutes: median(taskDurations),
   };
 }
 

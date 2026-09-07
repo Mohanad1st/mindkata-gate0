@@ -57,7 +57,13 @@ for (const summary of summarize(receipts)) {
   }
   console.log(`  started:              ${summary.started}`);
   console.log(`  completed:            ${summary.completed}`);
-  console.log(`  median completion:    ${formatMinutes(summary.medianCompletionMinutes)}`);
+  console.log(`  median page-open:     ${formatMinutes(summary.medianCompletionMinutes)}`);
+  console.log(`  median task time:     ${formatMinutes(summary.medianTaskMinutes)}`);
+  if (summary.medianCompletionMinutes !== null && summary.medianTaskMinutes !== null) {
+    console.log(
+      `  of which reading:     ${formatMinutes(summary.medianCompletionMinutes - summary.medianTaskMinutes)}`,
+    );
+  }
   console.log("");
 }
 
@@ -86,16 +92,34 @@ console.log(
   "  - 'completed' counts a recorded completion event; it does not mean completed without",
 );
 console.log("    facilitator rescue. Rescue is an observed measure.");
+console.log("  - TWO medians are reported and they measure different things (ADR 0010):");
 console.log(
-  "  - The median is wall-clock time from when the mission page mounted, so an interrupted or",
+  "    page-open = mission page mount to completion. Includes time spent reading the brief, and",
 );
 console.log(
-  "    idle participant inflates it. Session storage survives a reload, so a paused session keeps",
+  "                any idle time: session storage survives a reload, so a paused session keeps",
+);
+console.log("                counting.");
+console.log(
+  "    task time = first answer changed to completion. This is the interval the Kit's \"timing",
 );
 console.log(
-  "    counting. Compare against the facilitator's observed timings before trusting the median",
+  '                begins and ends at defined events" requirement describes. Null for receipts',
 );
-console.log("    that a Gate 0A floor turns on.\n");
+console.log("                exported before ADR 0010.");
+console.log(
+  "    WHICH of the two the Gate 0A 12-minute median is scored on is a founder decision, and it",
+);
+console.log(
+  "    must be settled BEFORE the first participant runs. 04_Gate_0A_Scorecard.md forbids",
+);
+console.log(
+  "    lowering a threshold after observing results, and picking the measurement definition once",
+);
+console.log(
+  "    the numbers exist is the same thing. Compare both against the facilitator's observed",
+);
+console.log("    timings either way.\n");
 
 if (files.length === 0) {
   console.error("No .json files found — nothing was aggregated.");

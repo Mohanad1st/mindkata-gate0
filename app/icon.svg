@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="MindKata Gate 0">
+  <!-- A boundary holding one thing inside it: the scope lock, reduced to a mark that
+       still reads at 16px. Solid fill so it works on a light or dark browser tab. -->
+  <rect width="32" height="32" rx="7" fill="#146b50"/>
+  <path d="M11 8H8.5A1.5 1.5 0 0 0 7 9.5v13A1.5 1.5 0 0 0 8.5 24H11"
+        fill="none" stroke="#fffdf8" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M21 8h2.5A1.5 1.5 0 0 1 25 9.5v13a1.5 1.5 0 0 1-1.5 1.5H21"
+        fill="none" stroke="#fffdf8" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="16" cy="16" r="3.6" fill="#fffdf8"/>
+</svg>

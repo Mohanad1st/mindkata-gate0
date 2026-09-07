@@ -90,7 +90,7 @@ failed retest.
 - No production database, persistent identity, or organization integration.
 - No automated primary-outcome scoring.
 - No claim of cognitive protection, transfer, or efficacy.
-- No public launch, paid acquisition, publicly reachable deployment, or legal reliance on the provisional name. An access-protected deployment, where every deployment in the project requires authentication against the owning account, is permitted under `decisions/0008-access-protected-preview-deployment.md`.
+- No public launch, paid acquisition, or legal reliance on the provisional name. A publicly reachable deployment of the Gate 0 prototype is permitted under `decisions/0009-public-deployment-of-the-gate0-prototype.md`; a deployment is not a launch, and the in-product working-name disclaimer must remain covered by a test (`G0-11`).
 
 Changing any item above requires a dated decision record and founder approval. Passing CI does not authorize a scope change.
 

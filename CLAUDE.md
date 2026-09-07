@@ -47,7 +47,11 @@ Do not add:
 - adaptive difficulty, personalized news, vector search, or recommender systems;
 - automated primary-outcome scoring or individual buyer dashboards;
 - live production AI providers, Supabase, PostHog, Sentry, billing, SSO, or multi-agent frameworks;
-- real participant data, production secrets, production deployment, or Gate 1 infrastructure.
+- real participant data, production secrets, agent-initiated deployment, or Gate 1 infrastructure.
+
+A founder-authorised public deployment of the Gate 0 prototype exists under
+`docs/decisions/0009-public-deployment-of-the-gate0-prototype.md`. That does not delegate deployment
+to Claude Code: deploying remains a protected decision below.
 
 The automated scope check enforces part of this boundary. Documentation rules remain binding even when not machine-detectable.
 
@@ -65,7 +69,8 @@ The automated scope check enforces part of this boundary. Documentation rules re
 - Server validation for any future server boundary; client validation is not authorization.
 - Semantic HTML, keyboard access, visible focus, reduced-motion support, and WCAG-aware contrast.
 - No dependency without an explicit decision record and founder review.
-- No destructive migrations, forced pushes, bypass-permissions mode, or production deployment.
+- No destructive migrations, forced pushes, bypass-permissions mode, or deploying — a deployment is
+  a founder action even where one is authorised.
 - Keep changes small and reviewable. One intentional slice per pull request.
 
 ## Required checks

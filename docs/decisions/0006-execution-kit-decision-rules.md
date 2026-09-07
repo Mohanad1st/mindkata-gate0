@@ -1,6 +1,9 @@
 # ADR 0006: Decision rules transcribed from the v2.1.1 Execution Kit
 
-**Status:** accepted for the transcription. One recorded conflict awaits a founder decision.
+**Status:** accepted. The conflict recorded below was resolved by
+`0007-full-mission-artifact-set.md` on 13 August 2026 in favour of the fuller `05` set; this status
+line had continued to read "awaits a founder decision" afterwards and is corrected here. The
+conflict and both options are retained below because the reasoning is what makes 0007 legible.
 **Date:** 13 August 2026
 
 ## Context
@@ -60,7 +63,7 @@ fields could move a scored criterion. The Kit's own QA requires that "two dry ru
 interface can be completed without facilitator rescue" and that "timing begins and ends at defined
 events".
 
-**Founder decision required:** either (a) treat `03`'s seven artifacts as the completion definition
+**Founder decision required — taken 13 August 2026: option (b), see `0007`.** Either (a) treat `03`'s seven artifacts as the completion definition
 and `05`'s extras as scoring guidance for the facilitator, or (b) build the full `05` set and re-time
 the mission in dry runs before freezing the prototype.
 

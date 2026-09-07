@@ -215,8 +215,10 @@ Claude must not merge its own pull request or deploy to production.
 - `config/scope-lock.json` · `scripts/check-scope.mjs`: the machine-checked boundary.
 - `docs/PRD.md`: executable Gate 0 product requirements.
 - `docs/scope-lock.md`: the approved scope and hard exclusions, in prose.
-- `docs/decisions/`: seven numbered ADRs. Status lines are live — three are still marked awaiting
-  review, which is the honest state of the log rather than an oversight.
+- `docs/decisions/`: ten numbered ADRs, all resolved. The log includes its own corrections: 0008 was
+  superseded by 0009 eight hours later, 0007 resolves a conflict 0006 recorded rather than papering
+  over it, and 0010 was written because a timing defect would have measured the wrong interval
+  against a scored threshold.
 - `docs/protocol/`: study and implementation-loop protocols.
 - `docs/security/`: data classification and threat model.
 - `docs/data-dictionary/`: event and artifact definitions.

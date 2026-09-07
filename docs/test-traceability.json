@@ -64,5 +64,10 @@
     "id": "G0-10",
     "requirement": "Every locked requirement maps to executable test evidence.",
     "tests": ["tests/unit/traceability.test.ts"]
+  },
+  {
+    "id": "G0-11",
+    "requirement": "The start page states that the product name is provisional and that no efficacy claim is made.",
+    "tests": ["tests/integration/home.test.tsx"]
   }
 ]

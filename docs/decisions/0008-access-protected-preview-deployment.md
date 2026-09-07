@@ -1,6 +1,9 @@
 # ADR 0008: An access-protected deployment is permitted; public deployment is not
 
-**Status:** accepted. Amends the hard exclusion in `docs/scope-lock.md` on production deployment.
+**Status:** superseded by `0009-public-deployment-of-the-gate0-prototype.md` on 7 September 2026.
+Retained for the record: its reasoning about deployment ordering, Git integration, and the
+`VERCEL_OIDC_TOKEN` that `vercel link` writes remains operationally accurate. Its requirement that
+an unauthenticated request must not return `200` is withdrawn.
 **Date:** 6 September 2026
 **Supersedes:** nothing. **Amends:** `docs/scope-lock.md`, hard exclusions.
 **Relates to:** `0005-no-cli-deployment.md`, which remains accurate about what the CLI does by

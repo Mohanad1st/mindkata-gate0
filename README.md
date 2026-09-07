@@ -5,6 +5,11 @@ that fail the build if it becomes them.
 
 It refuses to build the product. That is the point.
 
+**Open the prototype:** <https://mindkata-gate0.vercel.app> — two synthetic missions, about 10 minutes
+each, nothing collected. It stores your answers in your own browser tab and forgets them when you
+close it. A public deployment is permitted under [ADR 0009](docs/decisions/0009-public-deployment-of-the-gate0-prototype.md);
+it is not a launch, and finishing a mission demonstrates nothing about efficacy.
+
 ## The scope lock
 
 A research prototype has a scope problem that ordinary software does not. The whole value of a Gate 0
@@ -119,7 +124,9 @@ frame–delegate–verify–decide interaction.
 
 - **Approved:** the Gate 0 prototype and evidence collection.
 - **Not approved:** a Gate 1 research MVP, a consumer product, newsletter ingestion, a public feed,
-  adaptive training, automated cognitive scoring, or production deployment.
+  adaptive training, automated cognitive scoring, or a public launch. A public _deployment_ is
+  permitted under [ADR 0009](docs/decisions/0009-public-deployment-of-the-gate0-prototype.md) — a
+  deployment is not a launch.
 - **Product claim under test:** structured practice for the judgment that makes AI useful.
 - **Research boundary:** completion or engagement **does not** establish cognitive benefit,
   transfer, or product efficacy. A participant finishing both missions is evidence that the
@@ -217,6 +224,11 @@ Claude must not merge its own pull request or deploy to production.
 - `content/scenarios/`: versioned synthetic mission fixtures.
 - `tests/`: unit, integration, browser, and accessibility checks.
 - `scripts/`: the deterministic scope, security, traceability, and QA gates.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): what a pull request here may and may not do. Worth reading
+  first — the scope lock rejects changes most repositories would welcome.
+- [`SECURITY.md`](SECURITY.md): how to report privately, and what counts. A way to make a gate pass
+  while its stated condition is violated is the most valuable finding.
+- [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md): Contributor Covenant 2.1.
 
 ## Source-of-truth rule
 

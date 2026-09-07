@@ -58,7 +58,7 @@ for (const summary of summarize(receipts)) {
   console.log(`  started:              ${summary.started}`);
   console.log(`  completed:            ${summary.completed}`);
   console.log(`  median page-open:     ${formatMinutes(summary.medianCompletionMinutes)}`);
-  console.log(`  median task time:     ${formatMinutes(summary.medianTaskMinutes)}`);
+  console.log(`  median task time:     ${formatMinutes(summary.medianTaskMinutes)}   <- SCORED`);
   if (summary.medianCompletionMinutes !== null && summary.medianTaskMinutes !== null) {
     console.log(
       `  of which reading:     ${formatMinutes(summary.medianCompletionMinutes - summary.medianTaskMinutes)}`,
@@ -108,16 +108,13 @@ console.log(
 );
 console.log("                exported before ADR 0010.");
 console.log(
-  "    WHICH of the two the Gate 0A 12-minute median is scored on is a founder decision, and it",
+  "    TASK TIME is the scored measure. Founder decision of 7 September 2026, recorded in",
 );
 console.log(
-  "    must be settled BEFORE the first participant runs. 04_Gate_0A_Scorecard.md forbids",
+  "    docs/scope-lock.md and decisions/0010, taken before any participant ran. Page-open time is",
 );
 console.log(
-  "    lowering a threshold after observing results, and picking the measurement definition once",
-);
-console.log(
-  "    the numbers exist is the same thing. Compare both against the facilitator's observed",
+  "    scheduling context and is NOT scored. Compare both against the facilitator's observed",
 );
 console.log("    timings either way.\n");
 

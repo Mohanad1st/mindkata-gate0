@@ -26,7 +26,7 @@ All conditions must pass:
 - at least 60% and at least 5 users report a consequential human–AI incident **in the past six
   months**;
 - at least 70% of both users and buyers accurately explain the proposition;
-- at least 75% complete Mission 1 without rescue, with median completion no more than 12 minutes,
+- at least 75% complete Mission 1 without rescue, with median **task time** no more than 12 minutes,
   **and no material safety or privacy issue**;
 - at least 50% and at least 4 users voluntarily start **and complete** Mission 2, without added
   incentive or direct prompting;
@@ -63,6 +63,13 @@ carries its own floor.
 | Mission 1 median     | ≤12 min     | 12–18 min                     | >18 min    |
 | Mission 2 completion | ≥50%, min 4 | 25–49%                        | <25%       |
 | Buyer relevance      | ≥50%, min 4 | 30–49%                        | <30%       |
+
+**The Mission 1 median measures task time**: from the participant's first answer change to the
+recorded completion, per `decisions/0010-timing-begins-at-a-defined-event.md`. It is not page-open
+time, which starts on mount and therefore counts time spent reading the brief. Page-open time is
+still reported alongside it as scheduling context and is not scored. Founder decision, 7 September
+2026, taken before any participant ran — `04_Gate_0A_Scorecard.md` forbids changing a threshold
+after observing results, and choosing the measurement definition later would be the same thing.
 
 STOP also applies on any material safety or privacy issue, or after a failed retest.
 

@@ -1,6 +1,11 @@
 # ADR 0004: Facilitator receipt aggregation
 
-**Status:** proposed — awaiting founder review
+**Status:** accepted.
+**Founder authorisation, 7 September 2026.** The work sits inside the approved Gate 0 scope line
+"Accessibility, **timing**, facilitator observation, and debrief support" (`CLAUDE.md`), and it is now
+load-bearing: the task-time reporting required by `decisions/0010` extends this module. It had been
+shipped while this record still read "proposed", which is the kind of gap this repository exists to
+catch; the status is corrected rather than the history rewritten.
 **Date:** 12 August 2026
 
 ## Decision

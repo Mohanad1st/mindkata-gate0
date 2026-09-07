@@ -12,7 +12,13 @@ import {
 } from "@/lib/mission-state";
 
 type EvidenceEvent = {
-  name: "M1_STARTED" | "M1_COMPLETED" | "M2_STARTED" | "M2_COMPLETED";
+  name:
+    | "M1_STARTED"
+    | "M1_FIRST_INPUT"
+    | "M1_COMPLETED"
+    | "M2_STARTED"
+    | "M2_FIRST_INPUT"
+    | "M2_COMPLETED";
   at: string;
 };
 
@@ -21,6 +27,13 @@ type StoredMission = {
   sessionCode: string;
   missionId: string;
   startedAt: string;
+  /**
+   * When the participant first changed any answer. `startedAt` is written on mount, so it counts
+   * the time spent reading the brief as task time; this is the defined event the Kit's timing
+   * requirement actually describes. See ADR 0010. Optional: a mission that is opened and abandoned
+   * never has one.
+   */
+  firstInputAt?: string;
   completedAt?: string;
   answers: MissionAnswers;
   events: EvidenceEvent[];
@@ -86,6 +99,21 @@ export function MissionFlow({ scenario }: { scenario: Scenario }) {
 
   function update<K extends keyof MissionAnswers>(key: K, value: MissionAnswers[K]) {
     setAnswers((current) => ({ ...current, [key]: value }));
+    // Stamped once, on the first answer change, and never revised. This is the start of task time
+    // per ADR 0010; startedAt stays where it is, on mount, so no existing measure moves.
+    if (record && !record.firstInputAt) {
+      const at = new Date().toISOString();
+      const stamped: StoredMission = {
+        ...record,
+        firstInputAt: at,
+        events: [
+          ...record.events,
+          { name: scenario.id === "1" ? "M1_FIRST_INPUT" : "M2_FIRST_INPUT", at },
+        ],
+      };
+      setRecord(stamped);
+      sessionStorage.setItem(storageKey, JSON.stringify({ ...stamped, answers }));
+    }
   }
 
   function continueFlow() {

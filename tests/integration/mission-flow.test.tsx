@@ -92,10 +92,18 @@ describe("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 G0-08 mission interaction", () => 
     const receipt = JSON.parse(sessionStorage.getItem("mindkata-gate0:mission:1") ?? "{}");
     expect(receipt.answers.initialDecision).toBe("My original answer"); // G0-05
     expect(receipt.answers.finalDecision).toBe("My reviewed answer");
+    // G0-12. Order matters, not just membership: M1_FIRST_INPUT has to fall between the other two
+    // or task time is not the interval ADR 0010 describes. firstInputAt must also be strictly after
+    // startedAt here, because this participant typed rather than submitting an empty form.
     expect(receipt.events.map((event: { name: string }) => event.name)).toEqual([
       "M1_STARTED",
+      "M1_FIRST_INPUT",
       "M1_COMPLETED",
     ]);
+    expect(Date.parse(receipt.firstInputAt)).toBeGreaterThanOrEqual(Date.parse(receipt.startedAt));
+    expect(Date.parse(receipt.completedAt)).toBeGreaterThanOrEqual(
+      Date.parse(receipt.firstInputAt),
+    );
 
     const accessibility = await axe.run(document.body, {
       rules: { "color-contrast": { enabled: false } },

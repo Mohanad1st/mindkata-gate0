@@ -63,8 +63,11 @@ test("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 completes both fixed missions with sep
   );
   expect(missionOne.answers.initialDecision).toBe("Initial decision for mission 1"); // G0-05
   expect(missionOne.answers.finalDecision).toBe("Final decision for mission 1");
+  // G0-12: order, not membership. M1_FIRST_INPUT must sit between the other two, or task time is
+  // not the interval ADR 0010 defines.
   expect(missionOne.events.map((event: { name: string }) => event.name)).toEqual([
     "M1_STARTED",
+    "M1_FIRST_INPUT",
     "M1_COMPLETED",
   ]);
 
@@ -80,6 +83,9 @@ test("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 completes both fixed missions with sep
   expect(startedMissionTwo.events.map((event: { name: string }) => event.name)).toEqual([
     "M2_STARTED",
   ]); // G0-06
+  // G0-12: voluntary start is recorded with no input yet, so the two measures are independent.
+  // Mission 2 continuation is a scored criterion and must not become contingent on typing.
+  expect(startedMissionTwo.firstInputAt).toBeUndefined();
 
   await completeMission(page, "2");
   const completedMissionTwo = await page.evaluate(() =>
@@ -87,6 +93,7 @@ test("G0-01 G0-02 G0-03 G0-04 G0-05 G0-06 completes both fixed missions with sep
   );
   expect(completedMissionTwo.events.map((event: { name: string }) => event.name)).toEqual([
     "M2_STARTED",
+    "M2_FIRST_INPUT",
     "M2_COMPLETED",
   ]);
 });

@@ -69,5 +69,14 @@
     "id": "G0-11",
     "requirement": "The start page states that the product name is provisional and that no efficacy claim is made.",
     "tests": ["tests/integration/home.test.tsx"]
+  },
+  {
+    "id": "G0-12",
+    "requirement": "Mission timing is measured from a defined event: task time runs from the first answer changed to completion, separately from page-open time.",
+    "tests": [
+      "tests/unit/receipt-summary.test.ts",
+      "tests/integration/mission-flow.test.tsx",
+      "tests/e2e/gate0-flow.spec.ts"
+    ]
   }
 ]

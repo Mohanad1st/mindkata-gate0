@@ -57,7 +57,7 @@ non-zero.
 [`scripts/check-scope.mjs`](scripts/check-scope.mjs) enforces it with four checks, and accumulates
 rather than short-circuits, so one run reports every violation:
 
-1. **Prohibited paths.** If any of those eight directories exists on disk, the build fails. Not "is
+1. **Prohibited paths.** If any of those eight directories exists on disk, the check fails. Not "is
    imported" — _exists_. You cannot start building the admin dashboard and wire it up later.
 2. **The runtime dependency set, by exact equality.** Not a blocklist, a whitelist compared for set
    equality: adding a package fails, and so does removing one. Four runtime dependencies is the
@@ -93,7 +93,7 @@ three, and it returns to:
 SCOPE CHECK PASSED — Gate 0 boundaries are intact.
 ```
 
-It runs in three places, which is what makes it hard to route around: first stage of
+It runs in three places: first stage of
 `npm run qa` and `npm run qa:fast`; in GitHub Actions on every pull request and every push to main; and through a
 Claude Code `Stop` hook ([`.claude/settings.json`](.claude/settings.json) →
 [`scripts/stop-gate.mjs`](scripts/stop-gate.mjs)) that blocks the coding agent from reporting itself
@@ -131,7 +131,7 @@ This operates one level earlier: it constrains **what the codebase is allowed to
 before merge, before anything runs. The question it answers is not "is this command safe" but "is
 this still the study we got approval for".
 
-So read it as a worked example of a research-ethics boundary expressed as something a build can
+So read it as a worked example of a research-ethics boundary expressed as something CI can
 check — with the documents that go around it — rather than as a dependency to install. The
 transferable part is the pattern and the paperwork, not the code.
 

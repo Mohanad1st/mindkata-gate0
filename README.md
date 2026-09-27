@@ -64,8 +64,8 @@ rather than short-circuits, so one run reports every violation:
    approved surface, and any drift is a decision that has to be made deliberately.
 3. **Prohibited integration patterns.** Every `.ts`/`.tsx`/`.js`/`.mjs` file under `app/`,
    `components/`, `content/` and `lib/` is lowercased and substring-matched against the nine banned
-   strings. This is what makes "no live model call at Gate 0" a mechanical fact rather than an
-   intention.
+   strings. This turns "no live model call at Gate 0" from an intention into a check — within the
+   limits listed under [Known bypasses](#known-bypasses).
 4. **Mission identity.** Missions 1 and 2 must both be present, and a regex rejects any mission id
    from 3 upward. The study is two missions; a third one cannot appear by accident.
 
@@ -98,6 +98,26 @@ It runs in three places, which is what makes it hard to route around: first stag
 Claude Code `Stop` hook ([`.claude/settings.json`](.claude/settings.json) →
 [`scripts/stop-gate.mjs`](scripts/stop-gate.mjs)) that blocks the coding agent from reporting itself
 finished while the fast loop is red.
+
+### Known bypasses
+
+A control is only as honest as its stated limits. These are the ones known today:
+
+- **Scan coverage.** Pattern checks cover `app/`, `components/`, `content/` and `lib/` only. Root
+  config files (`next.config.ts`, a `middleware.ts`, `instrumentation.ts`) and `scripts/` are not
+  scanned.
+- **Substring matching.** A split or encoded string, or a provider that isn't on the list, passes.
+  It catches the honest mistake, not a determined workaround.
+- **The agent can edit its own lock.** `config/scope-lock.json`, `scripts/check-scope.mjs` and the
+  hook configuration live in the same repository the agent writes to. What stops an edit is the
+  operating contract and human review of every diff, not the check itself.
+- **Dependencies.** Only runtime dependencies are compared; dev dependencies are not.
+- **Mission ids.** The id check rejects `3`–`9` and would not catch a two-digit id such as `10`.
+- **Command guard.** The pre-execution guard blocks known destructive patterns and is a speed bump,
+  not a boundary.
+
+Closing these (scanning the whole tree, owner-protected lock files with a checksum in CI, a
+provider-agnostic network check) is the obvious next step if this pattern graduates beyond Gate 0.
 
 ## What this is not
 
@@ -144,8 +164,9 @@ The data boundary is designed rather than deferred — see
 - there is **no participant identity field**, and no server database;
 - browser state uses `sessionStorage` rather than long-lived storage, with an anonymous session code;
 - export and deletion are both explicit participant actions;
-- only synthetic fixtures exist in source control, and the scope lock mechanically guarantees no
-  model API can be called, so no participant text can reach a third party.
+- only synthetic fixtures exist in source control, and the scope lock checks that no known model-API
+  client is imported (see [Known bypasses](#known-bypasses)), so participant text is not sent to a
+  model provider by design.
 
 ## Quick start
 

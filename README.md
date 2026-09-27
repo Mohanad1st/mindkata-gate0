@@ -1,11 +1,11 @@
 # MindKata Gate 0
 
 Most of this repository is a list of things the build is forbidden to become, and 61 lines of Node
-that fail the build if it becomes them.
+that fail the CI quality loop if it becomes them.
 
 It refuses to build the product. That is the point.
 
-**Open the prototype:** <https://mindkata-gate0.vercel.app> — two synthetic missions, about 10 minutes
+**Open the prototype:** <https://mindkata-gate0.vercel.app> — two synthetic missions, up to about 10–12 minutes
 each, nothing collected. It stores your answers in your own browser tab and forgets them when you
 close it. A public deployment is permitted under [ADR 0009](docs/decisions/0009-public-deployment-of-the-gate0-prototype.md);
 it is not a launch, and finishing a mission demonstrates nothing about efficacy.
@@ -20,7 +20,7 @@ looks like progress.
 
 Written policy does not stop that. A document saying "no analytics at Gate 0" is not consulted at
 2am by someone adding a page, and it is certainly not consulted by a coding agent. So the boundary
-here is not written down and hoped for — it is a file the build reads, and a check that exits
+here is not written down and hoped for — it is a file the quality loop reads, and a check that exits
 non-zero.
 
 [`config/scope-lock.json`](config/scope-lock.json) is the whole boundary, and it is 26 lines:
@@ -67,7 +67,7 @@ rather than short-circuits, so one run reports every violation:
    strings. This turns "no live model call at Gate 0" from an intention into a check — within the
    limits listed under [Known bypasses](#known-bypasses).
 4. **Mission identity.** Missions 1 and 2 must both be present, and a regex rejects any mission id
-   from 3 upward. The study is two missions; a third one cannot appear by accident.
+   from 3 to 9. The study is two missions; a third one cannot appear by accident.
 
 ### It has been watched failing
 
@@ -94,7 +94,7 @@ SCOPE CHECK PASSED — Gate 0 boundaries are intact.
 ```
 
 It runs in three places, which is what makes it hard to route around: first stage of
-`npm run qa` and `npm run qa:fast`; in GitHub Actions on every push and pull request; and through a
+`npm run qa` and `npm run qa:fast`; in GitHub Actions on every pull request and every push to main; and through a
 Claude Code `Stop` hook ([`.claude/settings.json`](.claude/settings.json) →
 [`scripts/stop-gate.mjs`](scripts/stop-gate.mjs)) that blocks the coding agent from reporting itself
 finished while the fast loop is red.
@@ -103,6 +103,8 @@ finished while the fast loop is red.
 
 A control is only as honest as its stated limits. These are the ones known today:
 
+- **Where it runs.** CI, the local quality loop and the Stop hook run the check. The deploy build
+  does not, so a change that skips review and CI would still deploy.
 - **Scan coverage.** Pattern checks cover `app/`, `components/`, `content/` and `lib/` only. Root
   config files (`next.config.ts`, a `middleware.ts`, `instrumentation.ts`) and `scripts/` are not
   scanned.
@@ -121,12 +123,12 @@ provider-agnostic network check) is the obvious next step if this pattern gradua
 
 ## What this is not
 
-It is **not** a runtime guardrail library, and it does not compete with one. Tools like
-`agent-guardrails` or Galileo's Agent Control intercept an agent's actions as it executes them —
+It is **not** a runtime guardrail library, and it does not compete with one. Runtime guardrail
+tools intercept an agent's actions as it executes them —
 don't run destructive `terraform`, don't `rm -rf` that. Useful, and a different problem.
 
 This operates one level earlier: it constrains **what the codebase is allowed to become**, checked
-at build time, before anything runs. The question it answers is not "is this command safe" but "is
+before merge, before anything runs. The question it answers is not "is this command safe" but "is
 this still the study we got approval for".
 
 So read it as a worked example of a research-ethics boundary expressed as something a build can
@@ -170,7 +172,7 @@ The data boundary is designed rather than deferred — see
 
 ## Quick start
 
-Requirements: Node.js 22 or newer. Node.js 24 is used in CI.
+Requirements: Node.js 22.18 or newer. Node.js 24 is used in CI.
 
 ```bash
 npm ci
@@ -208,12 +210,13 @@ Commands:
 
 The loop records its last machine-readable result in `.artifacts/quality-loop/latest.json`.
 
-Alongside the scope lock, three more deterministic gates run in that loop:
+Alongside the scope lock, two more deterministic gates run in that loop:
 [`check-secrets.mjs`](scripts/check-secrets.mjs) scans the tree for key-shaped strings,
 [`check-traceability.mjs`](scripts/check-traceability.mjs) asserts every requirement in
 [`docs/test-traceability.json`](docs/test-traceability.json) maps to a test file that actually cites
-its requirement ID, and [`guard-command.mjs`](scripts/guard-command.mjs) blocks force-pushes,
-`git reset --hard`, production deploys and permission-bypass flags before they run.
+its requirement ID. Separately, a pre-execution hook, [`guard-command.mjs`](scripts/guard-command.mjs),
+blocks known force-push, `git reset --hard`, production-deploy and permission-bypass patterns before
+they run.
 
 ## Human approval points
 
@@ -236,8 +239,8 @@ Claude must not merge its own pull request or deploy to production.
 - `config/scope-lock.json` · `scripts/check-scope.mjs`: the machine-checked boundary.
 - `docs/PRD.md`: executable Gate 0 product requirements.
 - `docs/scope-lock.md`: the approved scope and hard exclusions, in prose.
-- `docs/decisions/`: ten numbered ADRs, all resolved. The log includes its own corrections: 0008 was
-  superseded by 0009 eight hours later, 0007 resolves a conflict 0006 recorded rather than papering
+- `docs/decisions/`: ten numbered ADRs, all accepted or superseded. The log includes its own corrections: 0008 was
+  superseded by 0009 the next day, 0007 resolves a conflict 0006 recorded rather than papering
   over it, and 0010 was written because a timing defect would have measured the wrong interval
   against a scored threshold.
 - `docs/protocol/`: study and implementation-loop protocols.

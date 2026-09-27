@@ -29,7 +29,7 @@
     "loop": "node scripts/quality-loop.mjs --profile=full"
   },
   "dependencies": {
-    "next": "16.3.0",
+    "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "zod": "4.4.3"
@@ -45,7 +45,7 @@
     "@types/react-dom": "19.2.4",
     "axe-core": "4.13.0",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.3.0",
+    "eslint-config-next": "16.3.6",
     "jsdom": "29.1.1",
     "prettier": "3.9.6",
     "typescript": "6.0.3",

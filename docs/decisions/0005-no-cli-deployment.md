@@ -13,8 +13,8 @@ dashboard setting that the CLI cannot reach.
 
 `docs/scope-lock.md` excludes "public launch … production deployment, or legal reliance on the
 provisional name". `docs/decisions/0001-gate0-baseline.md` permits "a non-production preview". A
-preview is therefore the only allowed target. Early CLI deployments created unintended public
-deployments, so deployment goes through the Git integration only.
+preview is therefore the only allowed target. Early attempts, from the CLI and from an automatic
+deploy on push, produced unintended public production deployments instead of a preview.
 
 ## The two compliant routes, and what each needs
 

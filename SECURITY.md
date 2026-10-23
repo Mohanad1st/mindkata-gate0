@@ -37,7 +37,9 @@ What is genuinely in scope:
   (`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`) is set in
   `next.config.ts`; there is no CSP.
 - Dependency advisories with no exploit path here. `npm run qa` runs
-  `npm audit --omit=dev --audit-level=high` in CI.
+  `npm audit --omit=dev --audit-level=high` in CI, which covers shipped (runtime) dependencies only.
+  A full `npm audit` still lists one dev-only advisory chain (`braces`, reached through
+  `eslint-config-next`'s lint tooling) that has no published fix; it is never bundled or served.
 
 ## Data handling, for reference
 

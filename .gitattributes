@@ -1,0 +1,13 @@
+# Keep LF in the working tree on every platform. Git for Windows defaults to
+# core.autocrlf=true, which would rewrite checkouts to CRLF and fail `prettier --check`.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary

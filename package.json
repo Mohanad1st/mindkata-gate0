@@ -29,7 +29,7 @@
     "loop": "node scripts/quality-loop.mjs --profile=full"
   },
   "dependencies": {
-    "next": "16.4.2",
+    "next": "16.4.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "zod": "4.4.3"
